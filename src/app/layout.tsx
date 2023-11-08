@@ -1,7 +1,7 @@
-import Header from "@/layout/Header";
-import "./globals.css";
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
+import Layout from "@/layout/Layout";
+import "./globals.css";
 
 const rubik = Rubik({
   subsets: ["arabic"],
@@ -21,9 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl">
-      <body className={`${rubik.variable} py-0 container`}>
-        <Header />
-        {children}
+      <body className={`${rubik.variable} py-0 container max-w-[1300px]`}>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );
