@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header>
+    <header className="flex justify-between">
       <div>
-        <ul>
+        <ul className="flex">
           <li>
             <Link href={"/"}>صفحه اصلی</Link>
           </li>
