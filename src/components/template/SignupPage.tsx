@@ -5,8 +5,12 @@ import { forwardRef } from "react";
 import React from "react";
 import { CustomInputType } from "src/types";
 import { signupSchema } from "@/app/validations";
+import { PulseLoader } from "react-spinners";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const SignupPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -20,15 +24,31 @@ const SignupPage = () => {
       body: JSON.stringify({ email, password }),
       headers: { "Content-type": "application/json" },
     });
+    // toast.success
     const backData = await res.json();
-    console.log(backData);
+
+    if (backData.status === 200) {
+      router.push("/signin");
+    }
+    if (backData.status !== 200) {
+      toast.error(backData.error, {
+        duration: 4000,
+        position: "top-left",
+        style: {
+          color: "#fff",
+          background: "#A50203",
+        },
+      });
+    }
   };
 
   return (
-    <div className="w-1/2 md:w-full h-[calc(100vh-117px)] mx-auto flex items-center justify-center">
+    <div className="w-1/2 md:w-5/6 sm:w-full h-[calc(100vh-117px)] mx-auto flex items-center justify-center">
+      <Toaster />
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-1/2 md:w-full gap-7 p-5 border-solid border-2 border-white-700 rounded-lg shadow-lg text-[1rem]"
+        className="flex flex-col w-5/6 sm:w-full  gap-7 p-5 border-solid border-2 border-white-700 rounded-lg shadow-lg text-[1rem]"
       >
         <div>
           <label htmlFor="email">ایمیل</label>
@@ -54,12 +74,16 @@ const SignupPage = () => {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="hover:bg-gray-600 bg-gray-700 p-2 text-white rounded-md w-1/2 m-auto"
-        >
-          {isSubmitting ? "loading" : "submit"}
-        </button>
+        {isSubmitting ? (
+          <PulseLoader color="#0369a1" size={10} className="mx-auto" />
+        ) : (
+          <button
+            type="submit"
+            className="hover:bg-gray-600 bg-gray-700 h-10 text-white rounded-md w-1/2 m-auto flex justify-center items-center"
+          >
+            submit
+          </button>
+        )}
       </form>
     </div>
   );

@@ -3,7 +3,7 @@ import { BiLogIn } from "react-icons/bi";
 
 const Header = () => {
   return (
-    <header className="flex justify-between items-center bg-sky-900 rounded-lg p-3 mt-3 text-[#fff]">
+    <header className="flex justify-between items-center bg-sky-900 rounded-lg p-3 mt-3 text-[#fff] relative z-1">
       <div>
         <ul className="flex gap-5">
           <li>
