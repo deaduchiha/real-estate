@@ -9,8 +9,9 @@ import { PulseLoader } from "react-spinners";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
-const SignupPage = () => {
+const SigninPage = () => {
   const router = useRouter();
   const {
     register,
@@ -20,19 +21,14 @@ const SignupPage = () => {
 
   const onSubmit: SubmitHandler<signupSchema> = async (data) => {
     const { email, password } = data;
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: { "Content-type": "application/json" },
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
     });
-    // toast.success
-    const backData = await res.json();
 
-    if (backData.status === 200) {
-      router.push("/signin");
-    }
-    if (backData.status !== 200) {
-      toast.error(backData.error, {
+    if (res.error) {
+      toast.error(res.error, {
         duration: 4000,
         position: "top-left",
         style: {
@@ -40,13 +36,15 @@ const SignupPage = () => {
           background: "#A50203",
         },
       });
+    } else {
+      router.push("/");
     }
   };
 
   return (
     <div className="w-1/2 md:w-5/6 sm:w-full h-[calc(100vh-117px)] mx-auto flex items-center justify-center flex-col gap-10">
       <Toaster />
-      <h3 className="font-bold text-[2rem]">ثبت نام</h3>
+      <h3 className="font-bold text-[2rem]">ورود</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-5/6 sm:w-full  gap-7 p-5 border-solid border-2 border-white-700 rounded-lg shadow-lg text-[1rem]"
@@ -87,16 +85,16 @@ const SignupPage = () => {
         )}
       </form>
       <div>
-        <span className="text-gray-700">حساب کاربری دارید؟</span>
-        <Link href={"/signin"} className=" text-sky-500 mr-2">
-          ورود
+        <span className="text-gray-700">حساب کاربری ندارید؟</span>
+        <Link href={"/signup"} className=" text-sky-500 mr-2">
+          ثبت نام
         </Link>
       </div>
     </div>
   );
 };
 
-export default SignupPage;
+export default SigninPage;
 
 const CustomInput = forwardRef<HTMLInputElement, CustomInputType>(
   function CustomInput(props, ref) {
