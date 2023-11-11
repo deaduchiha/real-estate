@@ -100,6 +100,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputType>(
   function CustomInput(props, ref) {
     return (
       <input
+        dir="ltr"
         className="w-full py-2 px-2 bg-gray-100 border-dotted border-2 border-black"
         {...props}
         ref={ref}

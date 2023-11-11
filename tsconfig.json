@@ -33,11 +33,10 @@
   },
   "include": [
     "next-env.d.ts",
+    "types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "src/app/api/auth/[...nextauth]/options.js",
-    "src/app/api/auth/[...nextauth]/route.js"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

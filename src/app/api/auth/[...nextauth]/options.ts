@@ -1,9 +1,10 @@
 import User from "@/models/User";
 import { verifyPassword } from "@/utils/auth";
 import connectDB from "@/utils/connectDB";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
@@ -24,8 +25,12 @@ export const authOptions = {
         const isValid = await verifyPassword(password, user.password);
         if (!isValid) throw new Error("ایمیل را رمز عبور اشتباه است.");
 
-        return { email };
+        return { email, id: user.id };
       },
+      credentials: undefined,
     }),
   ],
+  pages: {
+    signIn: "/signin",
+  },
 };
