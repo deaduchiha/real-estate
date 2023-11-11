@@ -37,7 +37,7 @@ const SigninPage = () => {
         },
       });
     } else {
-      router.push("/");
+      router.push("/dashboard");
     }
   };
 
